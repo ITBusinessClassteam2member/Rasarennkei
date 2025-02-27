@@ -1,0 +1,338 @@
+<div class="wrapper">
+  <header>
+    <!-- 固定ボタンを表示 -->
+    <a class="fix-btn99">チャット</a>
+  </header>
+</div>
+
+<!-- チャットウィンドウ全体 -->
+<div id="chat-window">
+  <!-- チャットウィンドウのヘッダー部分 -->
+  <div class="chat-header">
+    学校への問い合わせ<br>チャットボットサービス
+    <!-- チャットウィンドウを閉じるボタン -->
+    <button id="close-chat">×</button>
+  </div>
+  
+  <!-- GIFを表示する部分 -->
+  <div id="chat-gif-container">
+    <img src="http://concarehomepage.local/wp-content/uploads/2025/02/学校帰ってきたﾈﾄちゃん.gif" alt="Loading..." id="chat-gif">
+  </div>
+
+  <!-- チャットメッセージが表示される部分 -->
+  <div id="chat-content">
+    <div id="question-buttons">
+        <button data-message="こんにちは">こんにちは</button>
+        <button data-message="入学について">入学について</button>
+        <button data-message="年間行事について">年間行事について</button>
+    </div>
+  </div>
+
+    <div id="button-container">
+
+    </div>
+  
+  <!-- チャットウィンドウのフッター部分（入力欄と送信ボタン） -->
+  <div class="chat-footer">
+    <!-- メッセージ入力用テキストボックス -->
+    <input id="chat-input" type="text" placeholder="メッセージを入力">
+    <!-- メッセージ送信ボタン -->
+    <button id="send-btn">$25B6</button>
+  </div>
+</div>
+
+<style>
+/* 固定ボタンのスタイル */
+.fix-btn99 {
+  position: fixed;
+  z-index: 10;
+  background: #98d98e;
+  width: 150px;
+  border-radius: 15px;
+  text-decoration: none;
+  font-size: 14px;
+  text-align: center;
+  color: #000000;
+  padding: 20px 0;
+  right: 20px;
+  bottom: 20px;
+  box-shadow: 1px 1px 5px #aaa;
+}
+
+/* チャットウィンドウのスタイル */
+#chat-window {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 350px;
+  height: 590px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 1px 1px 5px #aaa;
+  z-index: 11;
+
+}
+
+/* GIFのスタイル */
+#chat-gif-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f9f9f9;
+  padding: 10px;
+}
+
+#chat-gif {
+  max-width: 100%;
+  max-height: 150px;
+  border-radius: 8px;
+}
+
+/* チャットウィンドウのヘッダー */
+.chat-header {
+  background: #98d98e;
+  padding: 5px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  color: black;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+/* 閉じるボタン */
+#close-chat {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+
+
+#question-buttons button {
+  width: 100%; /* ボタンを親要素の幅に合わせる */
+  padding: 10px;
+  margin: 5px 0; /* ボタン間の間隔 */
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+　text-align: center
+
+  display: flex; /* Flexbox を使用 */
+ 
+}
+
+#question-buttons button:hover {
+  background-color: #0056b3; /* ホバー時の背景色 */
+}
+
+
+
+#additional-buttons button {
+    width: 100%; /* ボタンを親要素の幅に合わせる */
+    padding: 10px;
+    margin: 5px 0; /* ボタン間の間隔 */
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+#additional-buttons button:hover {
+    background-color: #0056b3;
+}
+
+/* チャットメッセージが表示される部分 */
+#chat-content {
+  padding: 10px;
+  overflow-y: auto;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  /*gap: 1px;*/
+}
+
+/* 質問メッセージのスタイル */
+.user-message {
+  align-self: flex-end;
+  background-color: #e0f7fa;
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 70%;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 返信botメッセージのスタイル */
+.bot-message {
+  align-self: flex-start;
+  background-color: #f1f1f1;
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 70%;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* チャットフッターのスタイル */
+.chat-footer {
+  padding: 10px;
+  border-top: 1px solid #cccccc;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  height: 60px;
+}
+
+/* 入力欄のスタイル */
+#chat-input {
+  flex: 1;
+  padding: 5px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+}
+
+/* 送信ボタンのスタイル */
+#send-btn {
+  background: white;
+  border: 2px solid #98d98e;
+  color: #0095d9;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
+
+.chat-container {
+    position: fixed; 
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+
+</style>
+
+<script>
+// チャットボタンをクリックしたときにチャットウィンドウを表示
+let isFirstClick = true;
+document.querySelector('.fix-btn99').addEventListener('click', function() {
+    document.getElementById('chat-window').style.display = 'block';
+    if (isFirstClick) {
+        showInitialGreeting();
+        isFirstClick = false;
+    }
+});
+
+// チャットウィンドウの閉じるボタンで非表示にする
+document.getElementById('close-chat').addEventListener('click', function() {
+    document.getElementById('chat-window').style.display = 'none';
+});
+
+// 初回挨拶メッセージ表示
+function showInitialGreeting() {
+    const chatContent = document.getElementById('chat-content');
+    const greetingMessage = document.createElement('p');
+    greetingMessage.innerHTML = "こんねと！<br>いわきコンピュータ・カレッジについてご質問がありますか？";
+    greetingMessage.classList.add('bot-message');
+    chatContent.appendChild(greetingMessage);
+    chatContent.scrollTop = chatContent.scrollHeight;
+}
+
+// メッセージ送信処理
+document.getElementById('send-btn').addEventListener('click', function() {
+    sendMessage();
+});
+document.getElementById('chat-input').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        sendMessage();
+    }
+});
+
+// question-buttonsクリック処理
+document.getElementById('question-buttons').addEventListener('click', function(event) {
+    if (event.target.tagName === 'BUTTON') {
+        const message = event.target.dataset.message;
+        document.getElementById('chat-input').value = message;
+        sendMessage();
+    }
+});
+
+//ヘッダーにあるクエスチョンボタンの処理
+function displayButtons(message) {
+    const chatContent = document.getElementById('chat-content');
+    const buttonsContainer = document.createElement('div');
+    buttonsContainer.id = 'additional-buttons';
+
+    const existingButtons = document.getElementById('additional-buttons');
+    if (existingButtons) {
+        existingButtons.remove();
+    }
+
+    buttons.forEach(buttonData => {
+        const button = document.createElement('button');
+        button.textContent = buttonData.text;
+        button.dataset.message = buttonData.message;
+        button.addEventListener('click', function() {
+            document.getElementById('chat-input').value = buttonData.message;
+            sendMessage();
+        });
+        buttonsContainer.appendChild(button);
+    });
+
+    chatContent.appendChild(buttonsContainer);
+}
+
+
+function sendMessage() {
+    const chatInput = document.getElementById('chat-input');
+    const message = chatInput.value.trim();
+
+    if (message) {
+        const chatContent = document.getElementById('chat-content');
+        
+        // ユーザーのメッセージを表示
+        const userMessage = document.createElement('p');
+        userMessage.textContent = message;
+        userMessage.className = 'user-message';
+        chatContent.appendChild(userMessage);
+        chatInput.value = '';
+        chatContent.scrollTop = chatContent.scrollHeight;
+
+        // Flaskサーバーにメッセージを送信
+        fetch("https://rasadedocker.onrender.com/chat", {  // Flaskサーバーのエンドポイント
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: message })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Botの返信を表示
+            const botMessage = document.createElement('p');
+            botMessage.innerHTML = data.response;
+            botMessage.className = 'bot-message';
+            chatContent.appendChild(botMessage);
+            chatContent.scrollTop = chatContent.scrollHeight;
+        })
+        .catch(error => {
+            console.error("エラー:", error);
+        });
+    }
+}
+</script>

@@ -4,21 +4,18 @@ FROM python:3.10
 # 作業ディレクトリを設定
 WORKDIR /app
 
-# requirements.txt を先にコピー
-COPY requirements.txt /app/requirements.txt
-
-# Flask アプリと Rasa モデルのソースコードをコピー
+# 必要なファイルをコピー
 COPY ./app /app
 COPY ./rasa /rasa
+COPY requirements.txt /app/requirements.txt
 
 # パッケージをインストール
 RUN pip install --upgrade pip && \
-    pip install -r requirements.txt && \
-    python -m spacy download ja_ginza
+    pip install -r /app/requirements.txt && \
+    python -m spacy download ja_core_news_sm
 
 # ポートを公開
-EXPOSE 5000
-EXPOSE 5005
+EXPOSE 5000 5005
 
-# アプリと Rasa を同時に起動
-CMD sh -c 'rasa run --model /rasa/models --enable-api --cors "*" --port 5005 & python app.py'
+# アプリとRasaを起動
+CMD ["sh", "-c", "rasa run --model /rasa/models --enable-api --cors '*' --port 5005 & python /app/app.py"]
