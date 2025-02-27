@@ -1,23 +1,21 @@
 # ベースイメージ
 FROM python:3.10
 
-# 作業ディレクトリ
+# 作業ディレクトリを設定
 WORKDIR /app
 
-# パッケージをインストール
-COPY requirements.txt ./
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
-
-# ソースコードをコピー
-COPY ./app /app
+# Rasa モデルとアプリのソースコードをコピー
 COPY ./rasa /rasa
+COPY ./app /app
 
-# Spacy 日本語モデルのインストール
-RUN python -m spacy download ja_ginza
+# パッケージをインストール
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt && \
+    python -m spacy download ja_ginza
 
 # ポートを公開
-EXPOSE 5000 5005
+EXPOSE 5000
+EXPOSE 5005
 
-# 起動スクリプト
-CMD ["sh", "-c", "rasa run --model /rasa/models --enable-api --cors '*' --port 5005 & python app.py"]
+# アプリと Rasa を同時に起動
+CMD sh -c 'rasa run --model /rasa/models --enable-api --cors "*" --port 5005 & python app.py'
