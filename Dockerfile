@@ -1,18 +1,28 @@
-# ƒx[ƒXƒCƒ[ƒW
+# ãƒ™ãƒ¼ã‚¹ã‚¤ãƒ¡ãƒ¼ã‚¸
 FROM python:3.10
 
-# ì‹ÆƒfƒBƒŒƒNƒgƒŠ‚ğİ’è
+# ä½œæ¥­ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¨­å®š
 WORKDIR /app
 
-# Flask ƒAƒvƒŠ‚Ìƒ\[ƒXƒR[ƒh‚ğƒRƒs[
+# ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã‚’ã‚³ãƒ”ãƒ¼
 COPY ./app /app
 
-# ƒpƒbƒP[ƒW‚ğƒCƒ“ƒXƒg[ƒ‹
+# ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
-# ƒ|[ƒg‚ğŒöŠJ
-EXPOSE 5000
+# ãƒãƒ¼ãƒˆã‚’å…¬é–‹
+EXPOSE 5000 5005
 
-# ƒAƒvƒŠ‚ğ‹N“®
-CMD ["python", "app.py"]
+# Rasa ãƒ¢ãƒ‡ãƒ«ã®ã‚³ãƒ”ãƒ¼
+COPY ./models /app/models
+COPY ./config /app/config
+COPY ./data /app/data
+COPY ./actions /app/actions
+
+# Rasa ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚µãƒ¼ãƒãƒ¼ã®ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—
+RUN rasa train
+RUN rasa --version
+
+# ã‚¢ãƒ—ãƒªã‚’èµ·å‹•
+CMD ["sh", "-c", "rasa run --enable-api --cors '*' --model models --port 5005 & python app.py"]

@@ -4,15 +4,28 @@ import requests
 import os
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/chat": {"origins": "*"}})
 
-RASA_URL = os.getenv('RASA_URL', 'http://rasa:5005/webhooks/rest/webhook')
+# Render 用の Rasa URL 環境変数
+RASA_URL = os.getenv('RASA_URL', 'http://localhost:5005/webhooks/rest/webhook')
 
 @app.route('/chat', methods=['POST'])
 def chat():
+    # Content-Type が application/json の場合に対応
+    if request.content_type != 'application/json':
+        return jsonify({"error": "Content-Type must be application/json"}), 400
+
     user_message = request.json.get('message')
+    if not user_message:
+        return jsonify({"error": "No message provided"}), 400
+
     try:
-        response = requests.post(RASA_URL, json={"sender": "user", "message": user_message})
+        # Rasa サーバーに POST リクエスト
+        response = requests.post(
+            RASA_URL,
+            json={"sender": "user", "message": user_message},
+            headers={'Content-Type': 'application/json'}
+        )
         response.raise_for_status()
         return jsonify(response.json())
     except requests.exceptions.RequestException as e:
