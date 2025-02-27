@@ -4,9 +4,12 @@ FROM python:3.10
 # 作業ディレクトリを設定
 WORKDIR /app
 
-# Rasa モデルとアプリのソースコードをコピー
-COPY ./rasa /rasa
+# requirements.txt を先にコピー
+COPY requirements.txt /app/requirements.txt
+
+# Flask アプリと Rasa モデルのソースコードをコピー
 COPY ./app /app
+COPY ./rasa /rasa
 
 # パッケージをインストール
 RUN pip install --upgrade pip && \
