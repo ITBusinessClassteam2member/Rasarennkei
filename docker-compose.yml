@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  flask-app:
+    build:
+      context: .
+      dockerfile: app/Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - rasa
+    environment:
+      - RASA_URL=http://rasa:5005/webhooks/rest/webhook
+
+  rasa:
+    image: rasa/rasa:latest
+    ports:
+      - "5005:5005"
+    volumes:
+      - ./rasa:/app
+    command: >
+      run --enable-api --cors "*" --port 5005
