@@ -1,31 +1,23 @@
-﻿from flask import Flask, render_template, request, jsonify
+﻿from flask import Flask, jsonify, request, render_template
+from flask_cors import CORS
 import requests
 
 app = Flask(__name__)
+CORS(app)
 
-@app.route("/")
+@app.route('/')
 def home():
-    return render_template("index.html")
+    return render_template('index.html')
 
-@app.route("/chat", methods=["POST"])
+@app.route('/chat', methods=['POST'])
 def chat():
-    user_message = request.json.get("message")
-    rasa_response = requests.post(
-        "http://localhost:5005/webhooks/rest/webhook",
-        json={"sender": "user", "message": user_message}
+    user_input = request.json.get('message')
+    response = requests.post(
+        "http://rasa:5005/webhooks/rest/webhook",
+        json={"sender": "user", "message": user_input}
     )
-    bot_response = rasa_response.json()
-
-    if bot_response:
-        reply = bot_response[0].get("text", "すみません、理解できませんでした。")
-    else:
-        reply = "すみません、応答がありませんでした。"
-
-    return jsonify({"response": reply})
-
-if __name__ == "__main__":
-    app.run(debug=True)
+    return jsonify(response.json())
 
 # if __name__ == '__main__':
-#     app.run(debug=True, host='0.0.0.0', port=5000)
+#     app.run(host="0.0.0.0", port=5000, debug=True)
 
