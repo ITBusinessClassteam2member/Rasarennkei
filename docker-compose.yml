@@ -4,7 +4,7 @@ services:
   flask:
     build:
       context: .
-      dockerfile: flask_app/Dockerfile
+      dockerfile: flask_app/Dockerfile  # 正しいDockerfileパス
     ports:
       - "5000:5000"
     depends_on:
@@ -15,7 +15,7 @@ services:
   rasa:
     build:
       context: .
-      dockerfile: rasa/Dockerfile
+      dockerfile: rasa/Dockerfile  # 正しいDockerfileパス
     ports:
       - "5005:5005"
     networks:
