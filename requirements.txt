@@ -1,0 +1,6 @@
+flask==2.1.1
+rasa==3.1.1
+rasa-sdk
+gunicorn==20.1.0
+flask-cors==3.1.1
+ja-ginza

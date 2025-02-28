@@ -1,26 +1,17 @@
-version: "3.8"
+version: '3'
 
 services:
   flask:
-    build:
-      context: .
-      dockerfile: flask_app/Dockerfile  # 正しいDockerfileパス
+    build: .
     ports:
       - "5000:5000"
     depends_on:
       - rasa
-    networks:
-      - app_network
 
   rasa:
-    build:
-      context: .
-      dockerfile: rasa/Dockerfile  # 正しいDockerfileパス
+    image: rasa/rasa:3.1.1
+    command: run --enable-api --cors "*" --port 5005
+    volumes:
+      - ./rasa:/app
     ports:
       - "5005:5005"
-    networks:
-      - app_network
-
-networks:
-  app_network:
-    driver: bridge
