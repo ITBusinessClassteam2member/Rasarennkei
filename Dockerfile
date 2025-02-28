@@ -1,31 +1,24 @@
-# ベースイメージ
-FROM python:3.9-slim
+# ベースイメージとして Python 3.10 を使用
+FROM python:3.10-slim
 
-# 作業ディレクトリ設定
+# 作業ディレクトリを作成
 WORKDIR /app
 
-# 依存関係のコピーとインストール
-COPY requirements.txt . 
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
+# 必要なファイルをコピー
+COPY requirements.txt /app/
+COPY app.py /app/
+COPY templates /app/templates/
+COPY rasa /app/rasa/
+COPY entrypoint.sh /app/
 
-# SpaCy 日本語モデルのインストール
-RUN python -m spacy download ja_ginza
+# 必要なパッケージをインストール
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Ginza のモデルをリンク（必要な場合）
-RUN python -m ginza -m ja_ginza
+# entrypoint.sh に実行権限を付与
+RUN chmod +x entrypoint.sh
 
-# アプリのソースコードをコピー
-COPY . .
+# ポート5000番を開放
+EXPOSE 5000
 
-# Supervisor のインストール
-RUN apt-get update && apt-get install -y supervisor
-
-# Supervisor 設定ファイルのコピー
-COPY supervisor.conf /etc/supervisor/conf.d/supervisord.conf
-
-# ポートを公開（必要に応じて変更）
-EXPOSE 5005
-
-# Supervisor を使ってプロセスを管理
-CMD ["/usr/bin/supervisord"]
+# コンテナ起動時に entrypoint.sh を実行
+CMD ["./entrypoint.sh"]
