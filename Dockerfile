@@ -5,7 +5,7 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # 依存関係のコピーとインストール
-COPY requirements.txt .
+COPY requirements.txt . 
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
@@ -18,8 +18,14 @@ RUN python -m ginza -m ja_ginza
 # アプリのソースコードをコピー
 COPY . .
 
+# Supervisor のインストール
+RUN apt-get update && apt-get install -y supervisor
+
+# Supervisor 設定ファイルのコピー
+COPY supervisor.conf /etc/supervisor/conf.d/supervisord.conf
+
 # ポートを公開（必要に応じて変更）
 EXPOSE 5005
 
-# アプリの起動
-CMD ["rasa", "run", "--enable-api", "--cors", "*"]
+# Supervisor を使ってプロセスを管理
+CMD ["/usr/bin/supervisord"]
