@@ -1,21 +1,25 @@
 # ベースイメージ
-FROM python:3.10
+FROM python:3.9-slim
 
-# 作業ディレクトリを設定
+# 作業ディレクトリ設定
 WORKDIR /app
 
-# 必要なファイルをコピー
-COPY ./app /app
-COPY ./rasa /rasa
-COPY requirements.txt /app/requirements.txt
-
-# パッケージをインストール
+# 依存関係のコピーとインストール
+COPY requirements.txt .
 RUN pip install --upgrade pip && \
-    pip install -r /app/requirements.txt && \
-    python -m spacy download ja_core_news_sm
+    pip install -r requirements.txt
 
-# ポートを公開
-EXPOSE 5000 5005
+# SpaCy 日本語モデルのインストール
+RUN python -m spacy download ja_ginza
 
-# アプリとRasaを起動
-CMD ["sh", "-c", "rasa run --model /rasa/models --enable-api --cors '*' --port 5005 & python /app/app.py"]
+# Ginza のモデルをリンク（必要な場合）
+RUN python -m ginza -m ja_ginza
+
+# アプリのソースコードをコピー
+COPY . .
+
+# ポートを公開（必要に応じて変更）
+EXPOSE 5005
+
+# アプリの起動
+CMD ["rasa", "run", "--enable-api", "--cors", "*"]
