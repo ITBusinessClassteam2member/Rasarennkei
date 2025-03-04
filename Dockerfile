@@ -5,13 +5,13 @@ FROM python:3.9
 WORKDIR /app
 
 # Flaskのセットアップ
-COPY flask /app/Flask
-WORKDIR /app/Flask
+COPY flask /app/flask
+WORKDIR /app/flask
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Rasaのセットアップ
-COPY rasa /app/Rasa
-WORKDIR /app/Rasa
+COPY rasa /app/rasa
+WORKDIR /app/rasa
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Docker起動時のコマンド

@@ -6,7 +6,7 @@ services:
     ports:
       - "5005:5005"
     volumes:
-      - ./Rasa:/app/Rasa
+      - ./rasa:/app/rasa
     environment:
       - RASA_ENV=production
 
