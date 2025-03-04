@@ -1,17 +1,18 @@
-version: '3'
+version: "3.9"
 
 services:
+  rasa:
+    build: .
+    ports:
+      - "5005:5005"
+    volumes:
+      - ./Rasa:/app/Rasa
+    environment:
+      - RASA_ENV=production
+
   flask:
     build: .
     ports:
-      - "5000:5000"
+      - "8000:8000"
     depends_on:
       - rasa
-
-  rasa:
-    image: rasa/rasa:3.1.1
-    command: run --enable-api --cors "*" --port 5005
-    volumes:
-      - ./rasa:/app
-    ports:
-      - "5005:5005"

@@ -1,20 +1,18 @@
 # ベースイメージ
-FROM python:3.9-slim
+FROM python:3.9
 
-# 作業ディレクトリを設定
+# 作業ディレクトリ
 WORKDIR /app
 
-# 必要な依存関係をコピー
-COPY requirements.txt .
-
-# 必要なパッケージをインストール
+# Flaskのセットアップ
+COPY Flask /app/Flask
+WORKDIR /app/Flask
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Rasa サーバーとFlaskを実行するスクリプトをコピー
-COPY . /app
+# Rasaのセットアップ
+COPY Rasa /app/Rasa
+WORKDIR /app/Rasa
+RUN pip install --no-cache-dir -r requirements.txt
 
-# ポート設定
-EXPOSE 5000
-
-# コンテナ起動時に実行されるコマンド
-CMD ["sh", "run.sh"]
+# Docker起動時のコマンド
+CMD ["sh", "-c", "cd /app/Rasa && rasa run --enable-api --cors \"*\" & cd /app/Flask && gunicorn --bind 0.0.0.0:8000 app:app"]
