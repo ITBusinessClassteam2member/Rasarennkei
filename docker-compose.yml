@@ -2,7 +2,8 @@ version: "3.9"
 
 services:
   rasa:
-    build: .
+    build:
+      context: https://github.com/ITBusinessClassteam2member/Rasarennkei.git
     ports:
       - "5005:5005"
     volumes:
@@ -11,7 +12,8 @@ services:
       - RASA_ENV=production
 
   flask:
-    build: .
+    build:
+      context: https://github.com/ITBusinessClassteam2member/Rasarennkei.git
     ports:
       - "8000:8000"
     depends_on:
