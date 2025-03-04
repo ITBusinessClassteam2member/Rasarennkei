@@ -5,7 +5,7 @@ import requests
 app = Flask(__name__)
 CORS(app)  # CORS対応
 
-RASA_URL = "http://localhost:5005/webhooks/rest/webhook"  # RasaのURL
+RASA_URL = "http://rasa:5005/webhooks/rest/webhook"  # RasaのURL
 
 @app.route("/")
 def home():
