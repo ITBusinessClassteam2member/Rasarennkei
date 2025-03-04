@@ -2,5 +2,5 @@ flask
 rasa
 rasa-sdk
 gunicorn
-flask-cors
+flask_cors
 ja-ginza
