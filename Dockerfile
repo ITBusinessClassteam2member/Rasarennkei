@@ -5,12 +5,12 @@ FROM python:3.9
 WORKDIR /app
 
 # Flaskのセットアップ
-COPY Flask /app/Flask
+COPY flask /app/Flask
 WORKDIR /app/Flask
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Rasaのセットアップ
-COPY Rasa /app/Rasa
+COPY rasa /app/Rasa
 WORKDIR /app/Rasa
 RUN pip install --no-cache-dir -r requirements.txt
 
