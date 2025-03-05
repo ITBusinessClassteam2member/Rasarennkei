@@ -41,14 +41,14 @@ RASA_HOST = os.getenv("RASA_HOST", "0.0.0.0")
 RASA_PORT = os.getenv("RASA_PORT", "6000")
 RASA_URL = f"http://{RASA_HOST}:{RASA_PORT}/webhooks/rest/webhook"
 
-# Rasaをバックグラウンドで起動する関数
-def start_rasa():
-    command = f"rasa run --enable-api --cors '*' --port {RASA_PORT} --host {RASA_HOST}"
-    subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+# # Rasaをバックグラウンドで起動する関数
+# def start_rasa():
+#     command = f"rasa run --enable-api --cors '*' --port {RASA_PORT} --host {RASA_HOST}"
+#     subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-# production環境ではRasaを起動
-if RASA_ENV == "production":
-    start_rasa()
+# # production環境ではRasaを起動
+# if RASA_ENV == "production":
+#     start_rasa()
 
 @app.route("/")
 def home():
