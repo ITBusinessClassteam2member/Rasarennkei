@@ -1,13 +1,17 @@
 ﻿from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import requests
+import os
 
 app = Flask(__name__)
 CORS(app)  # CORS対応
 
-# Rasaのエンドポイントを環境変数に応じて設定
-RASA_ENV = os.getenv("RASA_ENV", "development")
-RASA_URL = "http://rasa:5005/webhooks/rest/webhook" if RASA_ENV == "production" else "http://localhost:5005/webhooks/rest/webhook"
+# # Rasaのエンドポイントを環境変数に応じて設定
+# RASA_ENV = os.getenv("RASA_ENV", "development")
+# RASA_URL = "http://rasa:5005/webhooks/rest/webhook" if RASA_ENV == "production" else "http://localhost:5005/webhooks/rest/webhook"
+
+# 環境変数PORTを取得してFlaskで使用
+PORT = int(os.getenv("PORT", 8000))  # 環境変数PORTが設定されていればそれを使用、なければ8000
 
 @app.route("/")
 def home():
@@ -23,5 +27,5 @@ def chat():
     return jsonify(response.json())
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000)
+    app.run(host="0.0.0.0", port=PORT)
 
