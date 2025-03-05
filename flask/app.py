@@ -5,7 +5,9 @@ import requests
 app = Flask(__name__)
 CORS(app)  # CORS対応
 
-RASA_URL = "http://rasa:5005/webhooks/rest/webhook"  # RasaのURL
+# Rasaのエンドポイントを環境変数に応じて設定
+RASA_ENV = os.getenv("RASA_ENV", "development")
+RASA_URL = "http://rasa:5005/webhooks/rest/webhook" if RASA_ENV == "production" else "http://localhost:5005/webhooks/rest/webhook"
 
 @app.route("/")
 def home():
