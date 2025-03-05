@@ -3,4 +3,4 @@ rasa
 rasa-sdk
 gunicorn
 flask_cors
-ja-ginza
+# ja-ginza

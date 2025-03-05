@@ -33,6 +33,7 @@ intents:
   - 高校のように担任の先生がいるのですか?
   - 入学について
   - ask_fortune
+  - コンカレ
 
 
 entities:
