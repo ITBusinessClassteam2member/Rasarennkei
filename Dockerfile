@@ -15,4 +15,4 @@ WORKDIR /app/rasa
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Docker起動時のコマンド
-CMD rasa run --enable-api --cors "*" --port 5005 & gunicorn --chdir /app/flask --bind 0.0.0.0:8000 app:app
+CMD rasa run --enable-api --cors "*" --port 6000 & gunicorn --chdir /app/flask --bind 0.0.0.0:8000 app:app

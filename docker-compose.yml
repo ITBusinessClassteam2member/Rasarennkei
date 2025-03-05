@@ -5,7 +5,7 @@ services:
     build:
       context: https://github.com/ITBusinessClassteam2member/Rasarennkei.git
     ports:
-      - "5005:5005"
+      - "6000:6000"
     volumes:
       - ./rasa:/app/rasa
     environment:
