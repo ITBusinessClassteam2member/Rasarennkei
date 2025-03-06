@@ -50,9 +50,9 @@ RASA_URL = f"http://{RASA_HOST}:{RASA_PORT}/webhooks/rest/webhook"
 # if RASA_ENV == "production":
 #     start_rasa()
 
-@app.route("/")
-def home():
-    return render_template("index.html")
+# @app.route("/")
+# def home():
+#     return render_template("index.html")
 
 @app.route("/chat", methods=["POST"])
 def chat():
