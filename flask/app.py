@@ -36,7 +36,7 @@ app = Flask(__name__)
 CORS(app)  # CORS対応
 
 # 環境変数に応じてRasaのエンドポイントを設定
-RASA_ENV = os.getenv("RASA_ENV", "development")
+RASA_ENV = os.getenv("RASA_ENV", "production")
 RASA_HOST = os.getenv("RASA_HOST", "0.0.0.0")
 RASA_PORT = os.getenv("RASA_PORT", "6000")
 RASA_URL = f"http://{RASA_HOST}:{RASA_PORT}/webhooks/rest/webhook"
