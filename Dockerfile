@@ -15,7 +15,7 @@ COPY flask_app/ ./flask_app/
 COPY rasa_app/ ./rasa_app/
 
 # 5. Rasa のモデルをトレーニング
-RUN rasa train --domain rasa_app/domain.yml --data rasa_app/data --out rasa_app/models
+# RUN rasa train --domain rasa_app/domain.yml --data rasa_app/data --out rasa_app/models
 
 # 6. `supervisord` の設定を追加
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
