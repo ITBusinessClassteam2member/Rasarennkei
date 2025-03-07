@@ -3,9 +3,9 @@ import requests
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)  # CORSを有効化（WordPressと通信するため）
+CORS(app)
 
-RASA_URL = "http://rasa:5005/webhooks/rest/webhook"  # Rasaのエンドポイント (Dockerネットワークを考慮)
+RASA_URL = "http://rasa:5005/webhooks/rest/webhook"  # Docker Composeのサービス名を使用
 
 @app.route("/chat", methods=["POST"])
 def chat():
@@ -24,4 +24,4 @@ def chat():
     return jsonify({"response": bot_response})
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    app.run(port=5000, host="0.0.0.0", debug=True)

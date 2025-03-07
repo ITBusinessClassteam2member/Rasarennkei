@@ -2,10 +2,9 @@ services:
   - type: web
     name: rasa-flask-app
     env: docker
+    region: oregon
     plan: free
+    repo: https://github.com/your-repo-name
+    branch: main
+    healthCheckPath: /
     autoDeploy: true
-    envVars:
-      - key: PORT
-        value: "8000"
-      - key: RASA_ENV
-        value: "production"
